@@ -1,0 +1,16 @@
+#fragmentContainer{
+  columns: 300px;
+  margin: 0.5rem;
+}
+
+.tag{
+  color: blue;
+}
+
+.fragment{
+  border: solid 4px rgb(25, 25, 25);
+  border-radius: 5%;
+  break-inside: avoid;
+  margin: 1rem;
+  padding: 1rem;
+}
