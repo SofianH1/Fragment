@@ -11,7 +11,8 @@ export const mockFragments = [
     updatedAt: "2025-11-02T21:14:00.000Z",
     tags: ["dev", "pwa", "offline"],
     collectionId: "col_projects",
-    isPinned: true
+    isPinned: true,
+    color:1
   },
 
   {
