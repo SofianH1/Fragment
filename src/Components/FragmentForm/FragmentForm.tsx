@@ -1,24 +1,29 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
+import type { FragmentFormProps } from "./FragmentForm.types";
+import useClickOutside from "@/hooks/useClickOutside";
 
 
-const FragmentForm = ({ ref, onCreate, onClose }: { ref: any, onCreate: (data: { title: string, content: string }) => void, onClose: () => void}) => {
+const FragmentForm = ({ onSubmit, onClose, initialFragment }: FragmentFormProps) => {
 
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
+    const [title, setTitle] = useState(initialFragment?.title ?? "");
+    const [content, setContent] = useState(initialFragment?.content ?? "");
+    const formRef = useRef<HTMLDivElement>(null)
+
+    useClickOutside(formRef, () => onClose());
 
     const handleSubmit = () => {
         if (!title.trim() && !content.trim()) return
         if (!title.trim()) {
-            onCreate({ title:"New fragment", content })
+            onSubmit({ title: "New fragment", content })
         }
-        else{
-            onCreate({ title, content })
+        else {
+            onSubmit({ title, content })
         }
     }
 
     return (
         <>
-            <div id='fragmentForm' ref={ref}>
+            <div id='fragmentForm' ref={formRef}>
                 <label htmlFor="titleInput">Title : </label>
                 <input
                     id="titleInput"

@@ -1,48 +1,68 @@
-#fragmentContainer{
-  columns: 300px;
-  margin: 0.5rem;
-  padding: 1rem;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.tag{
-  color: rgb(35, 35, 235);
+#fragmentContainer {
+    background-color: blueviolet;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 1rem;
+    columns: 300px;
+    padding: 1rem;
 }
 
-.fragment{
-  /* border: solid 4px rgb(25, 25, 25); */
-  border-radius: 1rem;
-  box-shadow: 0.25rem 0.25rem 10px rgb(25, 25, 25);
-  break-inside: avoid;
-  margin: 1rem;
-  padding: 1rem;
+.listView{
+    grid-template-columns: repeat(1,1fr) !important;
 }
 
-#fragmentForm{
+main{
+    margin: 1rem;
+}
+
+.tag {
+    color: rgb(35, 35, 235);
+}
+
+.fragment {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    /* border: solid 4px rgb(25, 25, 25); */
+    border-radius: 1rem;
+    box-shadow: 0.25rem 0.25rem 10px rgb(25, 25, 25);
+    break-inside: avoid;
+    padding: 1rem;
+}
+
+#fragmentForm {
     position: absolute;
     width: 500px;
     height: 500px;
     background-color: red;
 }
 
-.fragmentContent{
+.fragmentContent {
     color: green;
 }
 
-.tagContainer{
+.tagContainer {
     display: flex;
     gap: 0.5rem;
 }
 
-.tag{
+.tag {
     display: flex;
     justify-content: center;
     background-color: rgb(0, 217, 255);
     width: fit-content;
     min-width: 4ch;
     padding: 0.5rem;
+    font-size: small;
     border-radius: 999px;
 }
 
-#fragmentReader{
+#fragmentReader {
     background-color: greenyellow;
 }
