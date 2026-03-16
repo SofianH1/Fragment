@@ -1,12 +1,16 @@
 import { useState, useRef } from "react"
 import type { FragmentFormProps } from "./FragmentForm.types";
 import useClickOutside from "@/hooks/useClickOutside";
+import type { FragmentColor } from "@/types/fragment";
+import { DEFAULT_FRAGMENT_COLORS } from "@/constants/fragmentColors";
 
 
 const FragmentForm = ({ onSubmit, onClose, initialFragment }: FragmentFormProps) => {
 
     const [title, setTitle] = useState(initialFragment?.title ?? "");
     const [content, setContent] = useState(initialFragment?.content ?? "");
+    const [color, setColor] = useState<FragmentColor>(initialFragment?.color ?? DEFAULT_FRAGMENT_COLORS[0]);
+
     const formRef = useRef<HTMLDivElement>(null)
 
     useClickOutside(formRef, () => onClose());
@@ -14,16 +18,27 @@ const FragmentForm = ({ onSubmit, onClose, initialFragment }: FragmentFormProps)
     const handleSubmit = () => {
         if (!title.trim() && !content.trim()) return
         if (!title.trim()) {
-            onSubmit({ title: "New fragment", content })
+            onSubmit({ title: "New fragment", content, color })
         }
         else {
-            onSubmit({ title, content })
+            onSubmit({ title, content, color })
         }
     }
 
     return (
         <>
-            <div id='fragmentForm' ref={formRef}>
+            <div id='fragmentForm' ref={formRef} style={{backgroundColor:color.background}}>
+                <div className="colorPicker">
+                    {DEFAULT_FRAGMENT_COLORS.map((c, index) => (
+                        <button
+                            key={index}
+                            style={{backgroundColor:c.background}}
+                            className={color.background === c.background ? "selectedColor" : ""}
+                            onClick={()=>setColor(c)}
+                        />
+
+                    ))}
+                </div>
                 <label htmlFor="titleInput">Title : </label>
                 <input
                     id="titleInput"

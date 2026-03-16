@@ -22,8 +22,10 @@ function App() {
                 title: data.title,
                 content: data.content,
                 tags: [],
+                isPinned: false,
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString(),
+                color: data.color,
             },
             ...prev
         ]);
@@ -32,7 +34,7 @@ function App() {
 
     const editFragment = (data: FragmentFormData) => {
 
-        const { id, tags, createdAt, isPinned, collectionId } = selectedFragment!;
+        const { id, tags, createdAt, isPinned } = selectedFragment!;
         const editedFragment: Fragment = {
             id,
             title: data.title,
@@ -41,7 +43,7 @@ function App() {
             createdAt,
             updatedAt: new Date().toISOString(),
             isPinned,
-            collectionId,
+            color: data.color,
         }
 
         const newFragments = fragments.map((fragment) => {
@@ -87,6 +89,29 @@ function App() {
         setCreatingFragment(true);
     }
 
+    const handleTogglePin = (id: string) => {
+        const { tags, title, content, createdAt, updatedAt, isPinned, color } = selectedFragment!;
+        const editedFragment: Fragment = {
+            id,
+            title,
+            content,
+            tags,
+            createdAt,
+            updatedAt,
+            isPinned: !isPinned,
+            color,
+        }
+
+        const newFragments = fragments.map((fragment) => {
+            if (selectedFragment!.id === fragment.id) return editedFragment;
+            return fragment;
+        })
+
+        setFragments(newFragments);
+        setSelectedFragment(editedFragment);
+    }
+
+
 
     useEffect(() => {
         localStorage.setItem("fragments", JSON.stringify(fragments))
@@ -101,25 +126,36 @@ function App() {
     return (
         <>
             {creatingFragment && <FragmentForm onSubmit={handleFormSubmit} onClose={handleFormClose} initialFragment={selectedFragment} />}
-            {readingFragment && selectedFragment != null && <FragmentReader fragment={selectedFragment!} onDelete={handleFragmentDelete} onClose={handleReaderClose} onEdit={handleFragmentEdit} />}
-            <main>
-                <button onClick={() => setCreatingFragment(true)}>New Fragment</button>
-                <div id='fragmentContainer'>
-                    {fragments.map((fragment: Fragment) => (
-                        <div key={fragment.id} className='fragment' onClick={() => {
-                            setSelectedFragment(fragment);
-                            setReadingFragment(true);
-                        }}>
-                            <h3>{fragment.title}</h3>
-                            <div className='tagContainer'>
-                                {fragment.tags.map((tag: string) => (
-                                    <p className='tag' key={tag}>{tag}</p>
-                                ))}
-                            </div>
-                            <p className='fragmentContent'>{fragment.content}</p>
-                        </div>))}
+            <div className={`app ${readingFragment ? "reading" : ""}`}>
+
+                <div className="sideBar">
+                    <button>
+                        h
+                    </button>
+
                 </div>
-            </main>
+                <main>
+
+                    <button className='newFragmentButton' onClick={() => setCreatingFragment(true)} />
+                    <div id='fragmentContainer' className={readingFragment ? "shrink" : ""}>
+                        {fragments.map((fragment: Fragment, index: number) => (
+                            <div key={fragment.id} className='fragment' style={{ zIndex: fragments.length - index, backgroundColor: fragment.color.background, color: fragment.color.text, marginTop: index == 0 || index == 1 ? "0" : "" }} onClick={() => {
+                                setSelectedFragment(fragment);
+                                setReadingFragment(true);
+                            }}>
+
+                                <h3>{fragment.title}</h3>
+                                <div className='tagContainer'>
+                                    {fragment.tags.map((tag: string) => (
+                                        <p className='tag' key={tag}>{tag}</p>
+                                    ))}
+                                </div>
+                                <p className='fragmentText'>{fragment.content}</p>
+                            </div>))}
+                    </div>
+                </main>
+                {readingFragment && selectedFragment != null && <FragmentReader fragment={selectedFragment!} onDelete={handleFragmentDelete} onClose={handleReaderClose} onEdit={handleFragmentEdit} togglePin={handleTogglePin} />}
+            </div>
         </>
     )
 }

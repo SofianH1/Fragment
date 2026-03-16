@@ -1,9 +1,10 @@
-import type { Fragment } from "@/types/fragment";
+import type { Fragment, FragmentColor } from "@/types/fragment";
 
 
 export type FragmentFormData = {
     title: string;
     content: string;
+    color:FragmentColor;
 }
 
 export interface FragmentFormProps {
