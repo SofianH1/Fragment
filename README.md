@@ -1,73 +1,176 @@
-# React + TypeScript + Vite
+<div align="center">
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🧩 Fragment
 
-Currently, two official plugins are available:
+**A note-taking app that works without internet — and keeps your data on your device.**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
+[![Vite](https://img.shields.io/badge/Vite-rolldown-646CFF?style=flat-square&logo=vite)](https://vitejs.dev)
+[![PWA](https://img.shields.io/badge/PWA-offline--first-5A0FC8?style=flat-square&logo=pwa)](https://web.dev/progressive-web-apps/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
 
-## React Compiler
+</div>
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## About
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Fragment is an offline-first PWA for taking notes. Each note — called a **Fragment** — is stored directly on your device using IndexedDB. There's no backend, no account to create, and no data sent anywhere.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+The idea is simple: notes should be available instantly, work without a connection, and belong entirely to you.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+> *Work in progress — core features are functional, more coming soon.*
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## Features
+
+- Create, edit and delete notes
+- All data stored locally (IndexedDB)
+- Installable as a PWA — works on desktop and mobile
+- No login, no cloud, no tracking
+
+---
+
+## Tech Stack
+
+| Tool | Role |
+|------|------|
+| React 19 | UI framework |
+| TypeScript 5.9 | Type safety |
+| Vite (rolldown) | Build tool |
+| IndexedDB | Local persistent storage |
+| Vite PWA Plugin | Service worker & installability |
+
+---
+
+## Getting Started
+
+```bash
+git clone https://github.com/SofianH1/Fragment.git
+cd Fragment
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Project Structure
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── Components/     # UI components
+├── hooks/          # Custom React hooks
+├── types/          # TypeScript types & interfaces
+├── constants/      # App-wide constants
+├── Mock/           # Mock data for development
+└── App.tsx         # Root component
+```
+
+---
+
+## Roadmap
+
+- [x] CRUD on Fragments
+- [ ] Migrate storage from localStorage to IndexedDB
+- [ ] Service Worker + PWA manifest
+- [ ] Search and filter
+- [ ] Markdown support
+- [ ] Tags
+- [ ] Export (JSON / Markdown)
+
+---
+
+## License
+
+MIT + Commons Clause © [Sofian Hnini](https://github.com/SofianH1)  
+Free to use and modify, including commercially. Selling the software itself is not permitted. See [LICENSE](LICENSE) for details.
+
+---
+---
+
+<div align="center">
+
+# 🧩 Fragment — Français
+
+**Une application de prise de notes qui fonctionne sans connexion — et garde vos données sur votre appareil.**
+
+</div>
+
+---
+
+## À propos
+
+Fragment est une PWA offline-first pour la prise de notes. Chaque note — appelée un **Fragment** — est stockée directement sur votre appareil via IndexedDB. Aucun backend, aucun compte à créer, aucune donnée envoyée nulle part.
+
+L'idée est simple : les notes doivent être disponibles immédiatement, fonctionner sans connexion, et vous appartenir entièrement.
+
+> *Projet en cours de développement — les fonctionnalités principales sont opérationnelles, d'autres arrivent bientôt.*
+
+---
+
+## Fonctionnalités
+
+- Créer, modifier et supprimer des notes
+- Toutes les données stockées en local (IndexedDB)
+- Installable en tant que PWA — fonctionne sur desktop et mobile
+- Aucune connexion requise, aucun tracking
+
+---
+
+## Stack technique
+
+| Outil | Rôle |
+|-------|------|
+| React 19 | Framework UI |
+| TypeScript 5.9 | Typage statique |
+| Vite (rolldown) | Build & dev server |
+| IndexedDB | Stockage local persistant |
+| Vite PWA Plugin | Service worker & installabilité |
+
+---
+
+## Installation
+
+```bash
+git clone https://github.com/SofianH1/Fragment.git
+cd Fragment
+npm install
+npm run dev
+```
+
+---
+
+## Structure du projet
+
+```
+src/
+├── Components/     # Composants UI
+├── hooks/          # Hooks React personnalisés
+├── types/          # Types & interfaces TypeScript
+├── constants/      # Constantes de l'application
+├── Mock/           # Données de test
+└── App.tsx         # Composant racine
+```
+
+---
+
+## Feuille de route
+
+- [x] CRUD sur les Fragments
+- [ ] Migration localStorage → IndexedDB
+- [ ] Service Worker + manifest PWA
+- [ ] Recherche et filtrage
+- [ ] Support Markdown
+- [ ] Tags
+- [ ] Export (JSON / Markdown)
+
+---
+
+## Licence
+
+## Licence
+
+MIT + Commons Clause © [Sofian Hnini](https://github.com/SofianH1)  
+Libre d'utilisation et de modification, y compris à des fins commerciales. La revente du logiciel est interdite. Voir [LICENSE](LICENSE) pour les détails.

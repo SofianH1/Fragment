@@ -152,6 +152,7 @@ body {
     border-radius: 2rem;
     z-index: 50;
     border: solid 3px #112A46;
+    transition: background 0.3s ease;
 
     & label {
         font-size: 2rem;
@@ -209,10 +210,12 @@ body {
         height: 2rem;
         border: 2px #112A46 solid;
         border-radius: 50%;
+        transition: border 50ms ease;
     }
 
     & .selectedColor {
-        border: 3px solid #112A46;
+        border: 4px solid #112A46;
+
     }
 }
 
@@ -252,5 +255,9 @@ body {
         align-self: center;
         font-size: 200%;
         text-overflow: ellipsis;
+    }
+
+    *{
+        overflow: hidden;
     }
 }
