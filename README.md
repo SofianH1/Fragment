@@ -168,7 +168,6 @@ src/
 
 ---
 
-## Licence
 
 ## Licence
 
