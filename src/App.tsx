@@ -5,6 +5,7 @@ import FragmentReader from './Components/FragmentReader/FragmentReader';
 import type { FragmentFormData } from './Components/FragmentForm/FragmentForm.types';
 import type { Fragment } from '@/types/fragment';
 import { useFragments } from './hooks/useFragments';
+import { motion, AnimatePresence } from 'framer-motion';
 
 
 function App() {
@@ -77,29 +78,36 @@ function App() {
 
                         <button className='newFragmentButton' onClick={() => setCreatingFragment(true)} />
                         <div id='fragmentContainer' className={readingFragment ? "shrink" : ""}>
-                            {fragments.map((fragment: Fragment, index: number) => (
-                                <div
-                                    key={fragment.id}
-                                    className='fragment'
-                                    style={{
-                                        zIndex: fragments.length - index,
-                                        backgroundColor: fragment.color.background,
-                                        color: fragment.color.text,
-                                        marginTop: index == 0 || index == 1 ? "0" : ""
-                                    }}
-                                    onClick={() => {
-                                        setSelectedFragment(fragment);
-                                        setReadingFragment(true);
-                                    }}>
+                            <AnimatePresence >
+                                {fragments.map((fragment: Fragment, index: number) => (
+                                    <motion.div
+                                        key={fragment.id}
+                                        layout
+                                        initial={{ opacity: 0, scale: 0.96 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.96 }}
+                                        whileHover={{ y: -3 }}
+                                        transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                                        className='fragment'
+                                        style={{
+                                            zIndex: fragments.length - index,
+                                            backgroundColor: fragment.color.background,
+                                            color: fragment.color.text,
+                                        }}
+                                        onClick={() => {
+                                            setSelectedFragment(fragment);
+                                            setReadingFragment(true);
+                                        }}>
 
-                                    <h3>{fragment.title}</h3>
-                                    <div className='tagContainer'>
-                                        {fragment.tags.map((tag: string) => (
-                                            <p className='tag' key={tag}>{tag}</p>
-                                        ))}
-                                    </div>
-                                    <p className='fragmentText'>{fragment.content}</p>
-                                </div>))}
+                                        <h3>{fragment.title}</h3>
+                                        <div className='tagContainer'>
+                                            {fragment.tags.map((tag: string) => (
+                                                <p className='tag' key={tag}>{tag}</p>
+                                            ))}
+                                        </div>
+                                        <p className='fragmentText'>{fragment.content}</p>
+                                    </motion.div>))}
+                            </AnimatePresence>
                         </div>
                     </main>
                     {readingFragment && selectedFragment != null && <FragmentReader
