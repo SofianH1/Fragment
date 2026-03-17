@@ -28,14 +28,14 @@ const FragmentForm = ({ onSubmit, onClose, initialFragment }: FragmentFormProps)
     return (
         <>
             <div id="formOverlay"></div>
-            <div id='fragmentForm' ref={formRef} style={{backgroundColor:color.background}}>
+            <div id='fragmentForm' ref={formRef} style={{ backgroundColor: color.background }}>
                 <div className="colorPicker">
                     {DEFAULT_FRAGMENT_COLORS.map((c, index) => (
                         <button
                             key={index}
-                            style={{backgroundColor:c.background}}
+                            style={{ backgroundColor: c.background }}
                             className={color.background === c.background ? "selectedColor" : ""}
-                            onClick={()=>setColor(c)}
+                            onClick={() => setColor(c)}
                         />
 
                     ))}
@@ -55,10 +55,12 @@ const FragmentForm = ({ onSubmit, onClose, initialFragment }: FragmentFormProps)
                         id="contentInput"
                         value={content}
                         placeholder="Fragment content"
-                        onChange={e => setContent(e.target.value)}/>
+                        onChange={e => setContent(e.target.value)} />
                 </div>
-                <button onClick={handleSubmit}>Save</button>
-                <button onClick={onClose}>Close</button>
+                <div id="formButtons">
+                    <button onClick={handleSubmit}>Save</button>
+                    <button onClick={onClose}>Close</button>
+                </div>
             </div>
         </>
     )

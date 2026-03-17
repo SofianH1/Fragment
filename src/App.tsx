@@ -6,6 +6,10 @@ import type { FragmentFormData } from './Components/FragmentForm/FragmentForm.ty
 import type { Fragment } from '@/types/fragment';
 import { useFragments } from './hooks/useFragments';
 import { motion, AnimatePresence } from 'framer-motion';
+import { TiPlus } from "react-icons/ti";
+import { TiZoom } from "react-icons/ti";
+import { TiPin } from "react-icons/ti";
+import { TiCog } from "react-icons/ti";
 
 
 function App() {
@@ -69,14 +73,16 @@ function App() {
                 <div className={`app ${readingFragment ? "reading" : ""}`}>
 
                     <div className="sideBar">
-                        <button>
-                            h
-                        </button>
+                        <button>LOGO</button>
+                        <button id='newFragmentButton' onClick={() => setCreatingFragment(true)}><TiPlus /></button>
+                        <button id='SearchButton'><TiZoom /></button>
+                        <button id='pinnedButton'><TiPin /></button>
+
+                        <button id='settingsButton'><TiCog /></button>
                     </div>
 
                     <main>
 
-                        <button className='newFragmentButton' onClick={() => setCreatingFragment(true)} />
                         <div id='fragmentContainer' className={readingFragment ? "shrink" : ""}>
                             <AnimatePresence >
                                 {fragments.map((fragment: Fragment, index: number) => (
@@ -110,12 +116,30 @@ function App() {
                             </AnimatePresence>
                         </div>
                     </main>
-                    {readingFragment && selectedFragment != null && <FragmentReader
-                        fragment={selectedFragment!}
-                        onDelete={handleFragmentDelete}
-                        onClose={handleReaderClose}
-                        onEdit={handleFragmentEdit}
-                        togglePin={handleTogglePin} />}
+                    <AnimatePresence>
+                        {readingFragment && selectedFragment != null && (
+                            <motion.div
+                                key="reader"
+                                initial={{ opacity: 0, x: 30 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: 30 }}
+                                transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+                                style={{
+                                    gridColumn: 3,
+                                    gridRow: '1 / -1',
+                                    width: '380px',
+                                    overflow: 'hidden',
+                                    minHeight: 0,
+                                }}>
+                                <FragmentReader
+                                    fragment={selectedFragment!}
+                                    onDelete={handleFragmentDelete}
+                                    onClose={handleReaderClose}
+                                    onEdit={handleFragmentEdit}
+                                    togglePin={handleTogglePin} />
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
             </>
     )
