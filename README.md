@@ -74,7 +74,7 @@ src/
 ## Roadmap
 
 - [x] CRUD on Fragments
-- [ ] Migrate storage from localStorage to IndexedDB
+- [x] Migrate storage from localStorage to IndexedDB
 - [ ] Service Worker + PWA manifest
 - [ ] Search and filter
 - [ ] Markdown support
@@ -160,7 +160,7 @@ src/
 ## Feuille de route
 
 - [x] CRUD sur les Fragments
-- [ ] Migration localStorage → IndexedDB
+- [x] Migration localStorage → IndexedDB
 - [ ] Service Worker + manifest PWA
 - [ ] Recherche et filtrage
 - [ ] Support Markdown
