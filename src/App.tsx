@@ -1,5 +1,5 @@
 import './App.css'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import FragmentForm from './Components/FragmentForm/FragmentForm'
 import FragmentReader from './Components/FragmentReader/FragmentReader';
 import type { FragmentFormData } from './Components/FragmentForm/FragmentForm.types';
@@ -26,6 +26,7 @@ function App() {
     const handleFormSubmit = async (data: FragmentFormData) => {
         if (selectedFragment == null) {
             await createFragment(data);
+            setCreatingFragment(false);
         } else {
             const updated = await updateFragment({
                 ...selectedFragment,
@@ -34,9 +35,10 @@ function App() {
                 color: data.color,
             });
             setSelectedFragment(updated);
+            setCreatingFragment(false);
             setReadingFragment(true);
+            setShowReader(true);
         }
-        setCreatingFragment(false);
     }
 
     const handleFormClose = () => {
@@ -60,7 +62,10 @@ function App() {
         handleReaderClose();
     }
 
+    const closingForEditRef = useRef(false);
+
     const handleFragmentEdit = (fragment: Fragment) => {
+        closingForEditRef.current = true;
         setShowReader(false);
         setSelectedFragment(fragment);
         setCreatingFragment(true);
@@ -71,6 +76,7 @@ function App() {
         const updated = await updateFragment({ ...selectedFragment, id, isPinned: !selectedFragment.isPinned });
         setSelectedFragment(updated);
     };
+
 
 
     return (
@@ -124,7 +130,10 @@ function App() {
                     </main>
                     <AnimatePresence onExitComplete={() => {
                         setReadingFragment(false);
-                        setSelectedFragment(null);
+                        if (!closingForEditRef.current) {
+                            setSelectedFragment(null);
+                        }
+                        closingForEditRef.current = false;
                     }}>
                         {showReader && selectedFragment != null && (
                             <motion.div

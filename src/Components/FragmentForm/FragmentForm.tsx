@@ -5,6 +5,7 @@ import type { FragmentColor } from "@/types/fragment";
 import { DEFAULT_FRAGMENT_COLORS } from "@/constants/fragmentColors";
 
 
+
 const FragmentForm = ({ onSubmit, onClose, initialFragment }: FragmentFormProps) => {
 
     const [title, setTitle] = useState(initialFragment?.title ?? "");
