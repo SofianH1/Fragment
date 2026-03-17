@@ -18,6 +18,8 @@ function App() {
 
     const [creatingFragment, setCreatingFragment] = useState(false);
     const [readingFragment, setReadingFragment] = useState(false);
+    const [showReader, setShowReader] = useState(false);
+
     const [selectedFragment, setSelectedFragment] = useState<Fragment | null>(null);
 
 
@@ -42,9 +44,14 @@ function App() {
         setSelectedFragment(null);
     }
 
+    const handleReaderOpen = (fragment: Fragment) => {
+        setSelectedFragment(fragment);
+        setReadingFragment(true);
+        setShowReader(true);
+    }
+
     const handleReaderClose = () => {
-        setReadingFragment(false);
-        setSelectedFragment(null);
+        setShowReader(false);
     }
 
     const handleFragmentDelete = async (id: string) => {
@@ -54,7 +61,7 @@ function App() {
     }
 
     const handleFragmentEdit = (fragment: Fragment) => {
-        setReadingFragment(false);
+        setShowReader(false);
         setSelectedFragment(fragment);
         setCreatingFragment(true);
     }
@@ -84,7 +91,7 @@ function App() {
                     <main>
 
                         <div id='fragmentContainer' className={readingFragment ? "shrink" : ""}>
-                            <AnimatePresence >
+                            <AnimatePresence>
                                 {fragments.map((fragment: Fragment, index: number) => (
                                     <motion.div
                                         key={fragment.id}
@@ -101,8 +108,7 @@ function App() {
                                             color: fragment.color.text,
                                         }}
                                         onClick={() => {
-                                            setSelectedFragment(fragment);
-                                            setReadingFragment(true);
+                                            handleReaderOpen(fragment);
                                         }}>
 
                                         <h3>{fragment.title}</h3>
@@ -116,8 +122,11 @@ function App() {
                             </AnimatePresence>
                         </div>
                     </main>
-                    <AnimatePresence>
-                        {readingFragment && selectedFragment != null && (
+                    <AnimatePresence onExitComplete={() => {
+                        setReadingFragment(false);
+                        setSelectedFragment(null);
+                    }}>
+                        {showReader && selectedFragment != null && (
                             <motion.div
                                 key="reader"
                                 initial={{ opacity: 0, x: 30 }}
