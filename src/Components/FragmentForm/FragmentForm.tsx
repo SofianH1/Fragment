@@ -27,6 +27,7 @@ const FragmentForm = ({ onSubmit, onClose, initialFragment }: FragmentFormProps)
 
     return (
         <>
+            <div id="formOverlay"></div>
             <div id='fragmentForm' ref={formRef} style={{backgroundColor:color.background}}>
                 <div className="colorPicker">
                     {DEFAULT_FRAGMENT_COLORS.map((c, index) => (
@@ -39,21 +40,23 @@ const FragmentForm = ({ onSubmit, onClose, initialFragment }: FragmentFormProps)
 
                     ))}
                 </div>
-                <label htmlFor="titleInput">Title : </label>
-                <input
-                    id="titleInput"
-                    type="text"
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
-                    placeholder="Fragment title" />
-
-                <label htmlFor="contentInput">Content : </label>
-                <textarea
-                    id="contentInput"
-                    value={content}
-                    placeholder="Fragment content"
-                    onChange={e => setContent(e.target.value)}
-                />
+                <div id="titleContainer">
+                    <label htmlFor="titleInput">Title : </label>
+                    <input
+                        id="titleInput"
+                        type="text"
+                        value={title}
+                        onChange={e => setTitle(e.target.value)}
+                        placeholder="Fragment title" />
+                </div>
+                <div id="contentContainer">
+                    <label htmlFor="contentInput">Content : </label>
+                    <textarea
+                        id="contentInput"
+                        value={content}
+                        placeholder="Fragment content"
+                        onChange={e => setContent(e.target.value)}/>
+                </div>
                 <button onClick={handleSubmit}>Save</button>
                 <button onClick={onClose}>Close</button>
             </div>

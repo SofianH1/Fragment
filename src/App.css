@@ -45,7 +45,7 @@ body {
 
 #fragmentContainer {
     /* background-color: blueviolet; */
-    height: 100%;
+    /* height: 100%; */
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -59,7 +59,12 @@ body {
     grid-row: 2;
 
     &.shrink {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
+        height: auto;
+
+        .fragment{
+            aspect-ratio: 1/1;
+        }
     }
 }
 
@@ -112,7 +117,6 @@ body {
 }
 
 .fragment:hover {
-    z-index: 1000 !important;
     filter: saturate(1.5) brightness(0.9);
 }
 
@@ -120,7 +124,7 @@ body {
 
 .icon {
     scale: 1.5;
-    transition: scale 300ms ease-in-out;
+    transition: scale 300ms ease;
     cursor: pointer;
 
     &:hover {
@@ -146,8 +150,9 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90%;
     height: 90%;
+    max-width: 90%;
+    aspect-ratio: 1/1 ;
     background-color: rgb(225, 225, 225);
     border-radius: 2rem;
     z-index: 50;
@@ -178,6 +183,15 @@ body {
         }
     }
 }
+
+#formOverlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0,0.4);
+    pointer-events: none;
+    z-index: 49;
+}
+
 #topFragmentButtons{
     display: flex;
     justify-content: space-between;
@@ -208,6 +222,7 @@ body {
         position: relative;
         width: 2rem;
         height: 2rem;
+        aspect-ratio: 1/1;
         border: 2px #112A46 solid;
         border-radius: 50%;
         transition: border 50ms ease;
