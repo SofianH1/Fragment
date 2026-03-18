@@ -17,7 +17,6 @@ function App() {
     const { fragments, loading, createFragment, updateFragment, deleteFragment } = useFragments();
 
     const [creatingFragment, setCreatingFragment] = useState(false);
-    const [readingFragment, setReadingFragment] = useState(false);
     const [showReader, setShowReader] = useState(false);
 
     const [selectedFragment, setSelectedFragment] = useState<Fragment | null>(null);
@@ -36,7 +35,6 @@ function App() {
             });
             setSelectedFragment(updated);
             setCreatingFragment(false);
-            setReadingFragment(true);
             setShowReader(true);
         }
     }
@@ -48,7 +46,6 @@ function App() {
 
     const handleReaderOpen = (fragment: Fragment) => {
         setSelectedFragment(fragment);
-        setReadingFragment(true);
         setShowReader(true);
     }
 
@@ -88,7 +85,7 @@ function App() {
         loading ? <p>Loading...</p> :
             <>
                 {creatingFragment && <FragmentForm onSubmit={handleFormSubmit} onClose={handleFormClose} initialFragment={selectedFragment} />}
-                <div className={`app ${readingFragment ? "reading" : ""}`}>
+                <div className={`app ${showReader ? "reading" : ""}`}>
 
                     <div className="sideBar">
                         <button>LOGO</button>
@@ -102,7 +99,7 @@ function App() {
 
                     <main>
 
-                        <div id='fragmentContainer' className={readingFragment ? "shrink" : ""}>
+                        <div id='fragmentContainer' className={showReader ? "shrink" : ""}>
                             <AnimatePresence>
                                 {fragments.map((fragment: Fragment, index: number) => (
                                     <motion.div
@@ -135,7 +132,6 @@ function App() {
                         </div>
                     </main>
                     <AnimatePresence onExitComplete={() => {
-                        setReadingFragment(false);
                         if (!closingForEditRef.current) {
                             setSelectedFragment(null);
                         }

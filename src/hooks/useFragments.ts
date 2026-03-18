@@ -15,6 +15,10 @@ export function useFragments() {
             .then((data) => {
                 setFragments(data);
                 setLoading(false);
+            })
+            .catch(()=>{
+                setLoading(false);
+                setFragments([]);
             });
     }, []);
 
