@@ -54,6 +54,7 @@ function App() {
 
     const handleReaderClose = () => {
         setShowReader(false);
+        setSelectedFragment(null);
     }
 
     const handleFragmentDelete = async (id: string) => {
@@ -68,6 +69,10 @@ function App() {
         closingForEditRef.current = true;
         setShowReader(false);
         setSelectedFragment(fragment);
+        setCreatingFragment(true);
+    }
+
+    const handleFragmentCreate = () =>{
         setCreatingFragment(true);
     }
 
@@ -87,10 +92,11 @@ function App() {
 
                     <div className="sideBar">
                         <button>LOGO</button>
-                        <button id='newFragmentButton' onClick={() => setCreatingFragment(true)}><TiPlus /></button>
+                        <span></span>
+                        <button id='newFragmentButton' onClick={handleFragmentCreate}><TiPlus /></button>
                         <button id='SearchButton'><TiZoom /></button>
                         <button id='pinnedButton'><TiPin /></button>
-
+                        <span></span>
                         <button id='settingsButton'><TiCog /></button>
                     </div>
 
