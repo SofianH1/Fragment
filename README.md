@@ -75,7 +75,7 @@ src/
 
 - [x] CRUD on Fragments
 - [x] Migrate storage from localStorage to IndexedDB
-- [ ] Service Worker + PWA manifest
+- [x] Service Worker + PWA manifest
 - [ ] Search and filter
 - [ ] Markdown support
 - [ ] Tags
@@ -161,7 +161,7 @@ src/
 
 - [x] CRUD sur les Fragments
 - [x] Migration localStorage → IndexedDB
-- [ ] Service Worker + manifest PWA
+- [x] Service Worker + manifest PWA
 - [ ] Recherche et filtrage
 - [ ] Support Markdown
 - [ ] Tags
