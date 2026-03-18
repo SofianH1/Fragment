@@ -9,7 +9,7 @@ import { TiTimes } from "react-icons/ti";
 
 
 const FragmentReader = ({ fragment, onClose, onDelete, onEdit,togglePin}: FragmentReaderProps) => {
-    const { title, content, tags, isPinned } = fragment;
+    const { title, content, tags, isPinned,color } = fragment;
 
     const fragmentReaderRef = useRef<HTMLDivElement>(null)
     useClickOutside(fragmentReaderRef, () => onClose());
@@ -17,7 +17,7 @@ const FragmentReader = ({ fragment, onClose, onDelete, onEdit,togglePin}: Fragme
 
 
     return (
-        <aside id="fragmentReader" ref={fragmentReaderRef} aria-hidden="true">
+        <aside id="fragmentReader" ref={fragmentReaderRef} aria-hidden="true" style={{backgroundColor:color.background}}>
             <div id="topFragmentButtons">
             {isPinned ? <TiPin className="icon" onClick={()=>{togglePin(fragment.id)}}/> : <TiPinOutline className="icon" onClick={()=>{togglePin(fragment.id)}}/>}
             <TiTimes onClick={onClose} className="icon"/>

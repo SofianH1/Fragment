@@ -88,7 +88,7 @@ function App() {
                 <div className={`app ${showReader ? "reading" : ""}`}>
 
                     <div className="sideBar">
-                        <button>LOGO</button>
+                        <button><button><img src="android-chrome-512x512.png" alt="" /></button></button>
                         <span></span>
                         <button id='newFragmentButton' onClick={handleFragmentCreate}><TiPlus /></button>
                         <button id='SearchButton'><TiZoom /></button>
