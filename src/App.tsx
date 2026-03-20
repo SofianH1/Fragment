@@ -6,9 +6,6 @@ import type { FragmentFormData } from './Components/FragmentForm/FragmentForm.ty
 import type { Fragment } from '@/types/fragment';
 import { useFragments } from './hooks/useFragments';
 import { motion, AnimatePresence } from 'framer-motion';
-import { TiPlus } from "react-icons/ti";
-import { TiZoom } from "react-icons/ti";
-import { TiPin } from "react-icons/ti";
 import { TiCog } from "react-icons/ti";
 
 
@@ -69,7 +66,7 @@ function App() {
         setCreatingFragment(true);
     }
 
-    const handleFragmentCreate = () =>{
+    const handleFragmentCreate = () => {
         setCreatingFragment(true);
     }
 
@@ -85,81 +82,98 @@ function App() {
         loading ? <p>Loading...</p> :
             <>
                 {creatingFragment && <FragmentForm onSubmit={handleFormSubmit} onClose={handleFormClose} initialFragment={selectedFragment} />}
-                <div className={`app ${showReader ? "reading" : ""}`}>
+                <div className="app">
 
                     <div className="sideBar">
-                        <button><button><img src="android-chrome-512x512.png" alt="" /></button></button>
+                        <button><img src="android-chrome-512x512.png" alt="Logo" /></button>
                         <span></span>
-                        <button id='newFragmentButton' onClick={handleFragmentCreate}><TiPlus /></button>
-                        <button id='SearchButton'><TiZoom /></button>
-                        <button id='pinnedButton'><TiPin /></button>
+                        <button id='allFragmentsButton'><img src="Icons/HomeIcon.svg" alt="" /></button>
+                        <button id='collectionsButton'><img src="Icons/CollectionIcon.svg" alt="" /></button>
+                        <button id='archiveButton'><img src="Icons/ArchiveIcon.svg" alt="" /></button>
                         <span></span>
                         <button id='settingsButton'><TiCog /></button>
                     </div>
 
                     <main>
 
-                        <div id='fragmentContainer' className={showReader ? "shrink" : ""}>
-                            <AnimatePresence>
-                                {fragments.map((fragment: Fragment, index: number) => (
-                                    <motion.div
-                                        key={fragment.id}
-                                        layout
-                                        initial={{ opacity: 0, scale: 0.96 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        exit={{ opacity: 0, scale: 0.96 }}
-                                        whileHover={{ y: -3 }}
-                                        transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-                                        className='fragment'
-                                        style={{
-                                            zIndex: fragments.length - index,
-                                            backgroundColor: fragment.color.background,
-                                            color: fragment.color.text,
-                                        }}
-                                        onClick={() => {
-                                            handleReaderOpen(fragment);
-                                        }}>
+                        <div id='searchBar'>
+                            <label htmlFor="searchInput">
+                                <img src="Icons/SearchIcon.svg" alt="" />
+                            </label>
+                            <input id='searchInput' type="text" />
+                        </div>
 
-                                        <h3>{fragment.title}</h3>
-                                        <div className='tagContainer'>
-                                            {fragment.tags.map((tag: string) => (
-                                                <p className='tag' key={tag}>{tag}</p>
-                                            ))}
-                                        </div>
-                                        <p className='fragmentText'>{fragment.content}</p>
-                                    </motion.div>))}
+                        <div id='fragmentContainer' className={showReader ? "reading" : undefined}>
+                            {!showReader &&
+                                <AnimatePresence>
+                                    {fragments.map((fragment: Fragment, index: number) => (
+                                        <motion.div
+                                            key={fragment.id}
+                                            layout
+                                            layoutId={`fragment-${fragment.id}`}
+                                            initial={{ opacity: 0, scale: 0.96 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            exit={{ opacity: 0, scale: 0.96 }}
+                                            whileHover={{ y: -3 }}
+                                            transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                                            className='fragment'
+                                            style={{
+                                                zIndex: fragments.length - index,
+                                                backgroundColor: fragment.color.background,
+                                                color: fragment.color.text,
+                                            }}
+                                            onClick={() => {
+                                                handleReaderOpen(fragment);
+                                            }}>
+
+                                            <motion.h3 transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }} layoutId={`fragmentTitle-${fragment.id}`}>{fragment.title}</motion.h3>
+                                            <div className='tagContainer'>
+                                                {fragment.tags.map((tag: string) => (
+                                                    <p className='tag' key={tag}>{tag}</p>
+                                                ))}
+                                            </div>
+                                            <motion.p className='fragmentText' transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }} layout="position" layoutId={`fragmentText-${fragment.id}`}>{fragment.content}</motion.p>
+                                        </motion.div>))}
+                                    <motion.button
+                                        layout
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        id='newFragmentButton' onClick={handleFragmentCreate}><img src="Icons/PlusBlueIcon.svg" alt="" /></motion.button>
+                                </AnimatePresence>
+
+                            }
+
+                            <AnimatePresence onExitComplete={() => {
+                                if (!closingForEditRef.current) {
+                                    setSelectedFragment(null);
+                                }
+                                closingForEditRef.current = false;
+                            }}>
+                                {showReader && selectedFragment != null && (
+                                    <motion.div
+                                        key="reader"
+                                        layout
+                                        layoutId={`fragment-${selectedFragment.id}`}
+                                        initial={{ opacity: 0, x: 30 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: 30 }}
+                                        transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+                                        style={{
+                                            minHeight: 0,
+                                            height: "80%",
+                                            width: "80%"
+                                        }}>
+                                        <FragmentReader
+                                            fragment={selectedFragment!}
+                                            onDelete={handleFragmentDelete}
+                                            onClose={handleReaderClose}
+                                            onEdit={handleFragmentEdit}
+                                            togglePin={handleTogglePin} />
+                                    </motion.div>
+                                )}
                             </AnimatePresence>
                         </div>
                     </main>
-                    <AnimatePresence onExitComplete={() => {
-                        if (!closingForEditRef.current) {
-                            setSelectedFragment(null);
-                        }
-                        closingForEditRef.current = false;
-                    }}>
-                        {showReader && selectedFragment != null && (
-                            <motion.div
-                                key="reader"
-                                initial={{ opacity: 0, x: 30 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: 30 }}
-                                transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-                                style={{
-                                    gridColumn: 3,
-                                    gridRow: '1 / -1',
-                                    width: '380px',
-                                    overflow: 'hidden',
-                                    minHeight: 0,
-                                }}>
-                                <FragmentReader
-                                    fragment={selectedFragment!}
-                                    onDelete={handleFragmentDelete}
-                                    onClose={handleReaderClose}
-                                    onEdit={handleFragmentEdit}
-                                    togglePin={handleTogglePin} />
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
                 </div>
             </>
     )

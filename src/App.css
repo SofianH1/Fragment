@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cousine:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
 :root {
     --bg: #fcf8f5;
@@ -67,7 +68,7 @@ body {
             }
         }
 
-        img{
+        img {
             width: 100%;
         }
 
@@ -82,7 +83,7 @@ body {
 
 #root {
     height: 100%;
-    font-family: Inter, sans-serif;
+    font-family: "Plus Jakarta Sans", sans-serif;
 }
 
 
@@ -104,13 +105,50 @@ main {
     display: flex;
     flex-direction: column;
     height: 100%;
+    align-items: center;
     overflow: hidden;
     padding: 1.5rem;
     gap: 1rem;
+
+    #searchBar {
+        width: 20%;
+        min-width: 300px;
+        height: 2.5rem;
+        align-items: center;
+        display: flex;
+
+        border: var(--primary) solid;
+        border-radius: 999px;
+        padding: 0 0.5rem;
+
+        label {
+            height: 100%;
+            display: flex;
+            align-items: center;
+
+            img {
+                height: 80%;
+            }
+        }
+
+        #searchInput {
+            height: 100%;
+            width: 100%;
+            font-size: large;
+            color: #112A46;
+            border: unset;
+            background: unset;
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
 }
 
 #fragmentContainer {
     width: 100%;
+    min-height: 100%;
     flex: 1;
     overflow-y: auto;
     min-height: 0;
@@ -121,32 +159,13 @@ main {
     padding: 6px;
     -ms-overflow-style: none;
     scrollbar-width: none;
-
-    &.shrink {
-        grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-
-        .fragment {
-            padding: 0.75rem;
-            gap: 0.4rem;
-
-            h3 {
-                font-size: 0.85rem;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            .fragmentText {
-                line-clamp: 2;
-                -webkit-line-clamp: 2;
-                font-size: 0.75rem;
-            }
-
-            .tagContainer {
-                display: none;
-            }
-        }
+    
+    &.reading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
+    
 }
 
 .listView {
@@ -154,22 +173,24 @@ main {
 }
 
 
-.newFragmentButton {
-    align-self: flex-start;
-    padding: 0.75rem 1.5rem;
-    height: auto;
-    width: auto;
-    background-color: var(--primary);
-    color: var(--bg);
+#newFragmentButton {
+    position: fixed;
+    bottom: 5%;
+    right: 5%;
+    height: 4rem;
+    width: 4rem;
+    background-color: #dfeafb;
     border: none;
-    border-radius: 0.75rem;
-    font-size: 0.9rem;
-    font-weight: 500;
+    border-radius: 50%;
     cursor: pointer;
-    transition: opacity 0.2s ease;
+    z-index: 500;
+    img{
+        transition: transform 0.3s ease;
+        width: 60%;
+    }
 
-    &:hover {
-        opacity: 0.85;
+    &:hover img{
+        transform: scale(1.1);
     }
 }
 
@@ -182,13 +203,14 @@ main {
     height: 15rem;
     width: 100%;
     gap: 0.5em;
-    border-radius: 1rem;
+    border-radius: 2rem;
     padding: 1.25rem;
     background-color: white;
     font-family: Inter;
     font-weight: 400;
     overflow: hidden;
     text-overflow: ellipsis;
+    /* border: var(--primary) solid 0.25rem; */
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
     transition: box-shadow 0.3s ease;
 
@@ -209,9 +231,6 @@ main {
     }
 }
 
-.fragment:hover {
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-}
 
 
 
@@ -239,7 +258,7 @@ main {
 #fragmentForm {
     position: absolute;
     display: flex;
-    font-family: Inter, sans-serif;
+    font-family: "Plus Jakarta Sans", sans-serif;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -253,7 +272,7 @@ main {
     background-color: rgb(225, 225, 225);
     border-radius: 2rem;
     z-index: 50;
-    border: solid 3px var(--primary);
+    /* border: solid 3px var(--primary); */
     transition: background 0.3s ease;
 
     & label {
@@ -273,7 +292,7 @@ main {
         border-bottom: 2px solid var(--border);
         padding: 0.5rem 0;
         font-size: 1rem;
-        font-family: Inter, sans-serif;
+        font-family: "Plus Jakarta Sans", sans-serif;
         color: var(--primary);
         outline: none;
         transition: border-color 0.3 ease;
@@ -304,7 +323,8 @@ main {
 #formOverlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
     pointer-events: none;
     z-index: 49;
 }
@@ -372,11 +392,12 @@ main {
 
 #fragmentReader {
     height: 100%;
+    width: 100%;
+    flex: 1;
     background-color: var(--surface);
     color: var(--primary);
-    border-radius: 1rem;
+    border-radius: 2rem;
     padding: 1rem;
-    overflow-y: auto;
     scrollbar-width: none;
     display: flex;
     flex-direction: column;
@@ -384,9 +405,14 @@ main {
     text-overflow: ellipsis;
     transition: background-color 0.3s ease;
 
+
+
+
     h2 {
         max-width: 100%;
-        align-self: center;
+        align-self: flex-start;
+        margin-left: 5rem;
+        margin-top: 1rem;
         font-size: 1.6rem;
         font-weight: 700;
         line-height: 1.3;
