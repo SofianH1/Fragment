@@ -1,11 +1,11 @@
 import './App.css'
-import { useRef, useState } from 'react'
+import { useRef, useState, type InputEvent, type InputHTMLAttributes } from 'react'
 import FragmentForm from './Components/FragmentForm/FragmentForm'
 import FragmentReader from './Components/FragmentReader/FragmentReader';
 import type { FragmentFormData } from './Components/FragmentForm/FragmentForm.types';
 import type { Fragment } from '@/types/fragment';
 import { useFragments } from './hooks/useFragments';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, type Target } from 'framer-motion';
 import { TiCog } from "react-icons/ti";
 
 
@@ -13,10 +13,12 @@ function App() {
 
     const { fragments, loading, createFragment, updateFragment, deleteFragment } = useFragments();
 
+
     const [creatingFragment, setCreatingFragment] = useState(false);
     const [showReader, setShowReader] = useState(false);
 
     const [selectedFragment, setSelectedFragment] = useState<Fragment | null>(null);
+    const [searchedFragments, setSearchedFragments] = useState<Fragment[]>(fragments)
 
 
     const handleFormSubmit = async (data: FragmentFormData) => {
@@ -39,6 +41,22 @@ function App() {
     const handleFormClose = () => {
         setCreatingFragment(false);
         setSelectedFragment(null);
+    }
+
+    const handleSearchFragments = (e:any) => {
+        const query = e.target.value
+        if(query === ""){
+            setSearchedFragments(fragments);
+        }
+        else{
+            const frag:Fragment[] = []
+            for(const f of fragments){
+                if(f.content.includes(query) || f.title.includes(query)){
+                    frag.push(f)
+                }
+            }
+            setSearchedFragments(frag);
+        }
     }
 
     const handleReaderOpen = (fragment: Fragment) => {
@@ -100,13 +118,13 @@ function App() {
                             <label htmlFor="searchInput">
                                 <img src="Icons/SearchIcon.svg" alt="" />
                             </label>
-                            <input id='searchInput' type="text" />
+                            <input id='searchInput' type="text" onChange={(e) => { handleSearchFragments(e) }} />
                         </div>
 
                         <div id='fragmentContainer' className={showReader ? "reading" : undefined}>
                             {!showReader &&
                                 <AnimatePresence>
-                                    {fragments.map((fragment: Fragment, index: number) => (
+                                    {searchedFragments.map((fragment: Fragment, index: number) => (
                                         <motion.div
                                             key={fragment.id}
                                             layout
