@@ -9,7 +9,7 @@ import { TiTimes } from "react-icons/ti";
 
 
 const FragmentReader = ({ fragment, onClose, onDelete, onEdit,togglePin}: FragmentReaderProps) => {
-    const { title, content, tags, isPinned,color,id } = fragment;
+    const { title, content, tags, isPinned,color } = fragment;
 
     const fragmentReaderRef = useRef<HTMLDivElement>(null)
     useClickOutside(fragmentReaderRef, () => onClose());
