@@ -6,7 +6,6 @@ import { TiPin } from "react-icons/ti";
 import { TiTrash } from "react-icons/ti";
 import { TiEdit } from "react-icons/ti";
 import { TiTimes } from "react-icons/ti";
-import {motion} from "framer-motion";
 
 
 const FragmentReader = ({ fragment, onClose, onDelete, onEdit,togglePin}: FragmentReaderProps) => {
@@ -23,11 +22,11 @@ const FragmentReader = ({ fragment, onClose, onDelete, onEdit,togglePin}: Fragme
             {isPinned ? <TiPin className="icon" onClick={()=>{togglePin(fragment.id)}}/> : <TiPinOutline className="icon" onClick={()=>{togglePin(fragment.id)}}/>}
             <TiTimes onClick={onClose} className="icon"/>
             </div>
-            <motion.h2 transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }} layoutId={`fragmentTitle-${id}`}>{title}</motion.h2>
+            <h2>{title}</h2>
             <p>{tags}</p>
             {/* <p>{createdAt}</p>
             <p>{updatedAt}</p> */}
-            <motion.p transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }} layoutId={`fragmentText-${id}`} layout="position">{content}</motion.p>
+            <p>{content}</p>
             <TiEdit onClick={(e) => { e.stopPropagation(); onEdit(fragment) }} className="icon"/>
             <TiTrash onClick={(e) => { e.stopPropagation(); onDelete(fragment.id) }} className="icon"/>
         </div>
